@@ -46,7 +46,19 @@ density to evaluate non-linear structural distortion against classical log-norma
 This repository provides a high-throughput, native quantitative execution environment built entirely from scratch in pure C++. The architecture reads raw historical underlying matrices and multi-strike option surfaces to extract risk-free rates, forward drift values, and implied volatility layers. It then leverages regularized finite differences combined with optimal transport metrics to extract robust price expectations (\(V^{*}\)) and tail distortion metrics without relying on any external BLAS, LAPACK, or statistical runtime software.
 
 ---
+[market_history.txt]  --> Garman-Klass Volatility Estimation --> Spot Price Extraction (S0)
+                                                                       |
+[option_chain.txt]   --> Put-Call Parity Regression -------------------> Extracted Rates (r, d)
 
+                               |                                       |
+                     Breeden-Litzenberger Formula            Black-Scholes Inversion
+
+                               |                                       |
+                    Empirical Profile (mu_T)                Theoretical Profile (nu_t)
+                               \                                      /
+                                \--> 1D Wasserstein Integration <----/
+                                               |
+                                     [Console Dashboards]
 ## 📁 Core Components
 
 All key objects are bundled systematically within your `generated/` workspace folder:
